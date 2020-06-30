@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\ErrorHandler\Exception\FlattenException;
 use Throwable;
+
 
 class Handler extends ExceptionHandler
 {
@@ -39,7 +41,7 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * Render an exception into an HTTP response.
+     * Render an exception into an JSON response.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Throwable  $exception
@@ -49,6 +51,35 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
+        // Check Validation Status
+        if ($exception instanceof ValidationException) {
+            $exception = new HttpException(400, $exception->getMessage());
+        }
+
+        // Flatten exception for serializing
+        $flatException = FlattenException::createFromThrowable($exception);
+        $message = $flatException->getMessage();
+        $status = $flatException->getStatusCode();
+
+        // Sometimes, message is empty
+        if (empty($message)) {
+            switch ($flatException->getStatusCode()) {
+                case 404:
+                    $message = 'That resource could not be found.';
+                    break;
+                default:
+                    $message = 'Whoops, looks like something went wrong.';
+            }
+        }
+
+        // Format error consistently
+        $response = [
+            'status' => $status,
+            'error' => [
+                'message' => $message,
+            ]
+        ];
+
+        return response()->json($response, $response['status']);
     }
 }
