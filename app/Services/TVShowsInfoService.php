@@ -10,5 +10,5 @@ interface TVShowsInfoService
      * 
      * @return array List of movies that matched the query.
      */
-    public function getMovies(string $query) : array;
+    public function getTVShows(string $query) : array;
 }

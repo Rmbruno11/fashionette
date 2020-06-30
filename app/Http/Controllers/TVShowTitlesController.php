@@ -36,8 +36,9 @@ class TVShowTitlesController extends Controller
         
         // Call the service
         $this->tvshowsService->getTVShows($query);
+        $result = $this->tvshowsService->getTVShows($query);
 
         // Return response
-        return response()->json(['status' => 200, 'input' => $query]);
+        return response()->json(['status' => 200, 'data' => $result]);
     }
 }
