@@ -28,8 +28,12 @@ JSON API, implemented using:
   - **Third party service:**
 
     To get to the data, we use the third party service TVMaze, which provides a convenient
-    API to search for movie titles. Their API description can be found here:
+    API to search for movie titles. Using a cache for Optimization of the number of HTTP requests.
+
+    Their API description can be found here:
     http://www.tvmaze.com/api
+
+    
 
   - **Running the unit tests:**
 
