@@ -1,24 +1,88 @@
-# Lumen PHP Framework
+# fashionette
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+#### Coding Challenge
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+JSON API, implemented using:
+• PHP 7.x
+• Lumen
+• Git
 
-## Official Documentation
+###### INSTRUCTIONS
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+- * **Requirements**:
 
-## Contributing
+- - - Install php 7.2+
+    - Clone the repository
+    - install dependencies:
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+  - - ```
+      php composer.phar install
+      ```
 
-## Security Vulnerabilities
+  - **Running the project:**
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+    ```
+    php       -S 127.0.0.1:8000 -t public
+    ```
 
-## License
+  - **Third party service:**
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    To get to the data, we use the third party service TVMaze, which provides a convenient
+    API to search for movie titles. Their API description can be found here:
+    http://www.tvmaze.com/api
+
+  - **Running the unit tests:**
+
+    ```
+    ./vendor/bin/phpunit
+    ```
+
+
+
+#### 			EXAMPLES
+
+   - ​	**With results:**
+
+     ```
+     http://localhost:8000/?q=Deadwood
+     ```
+
+     ![image-20200630183206862](.\image-20200630183206862.png)
+
+   - **Without results:**
+
+     ```
+     http://localhost:8000/?q=deadwood
+     ```
+
+     ![image-20200630183447061](.\image-20200630183447061.png)
+
+   * **Wrong URL - ERROR:**
+
+     ```
+     http://localhost:8000/?t=deadwood
+     ```
+
+     ![image-20200630183610782](.\image-20200630183610782.png)
+
+
+
+#### How can the API evolve in the future ?
+
+* Api versioning: it is good practice to version the apis: 
+
+  Ex: **http://json-api.local/v1/search?q=<query>** instead of 
+
+  **http://json-api.local/?q=<query >**
+
+* Model the entities (in this case TVShow), and use some serializer (such as Fractal) to assemble the responses. Using a TVShow class and instances of able to transform the information to json for the user.
+
+* Add authentication using lumen middleware.
+
+* Add linters and static code analysis tools (for example: PHP C Fixer or PHP Mess Detector).
+
+* Use a documentation tool (Ex: swagger / openapi).
+
+* improving the cache system towards a shared one.
+
+* Add functional / integration tests.
