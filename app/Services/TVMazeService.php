@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Cache;
 use App\Exceptions\InvalidResponseException;
 use GuzzleHttp\Client;
 
@@ -9,9 +10,11 @@ class TVMazeService implements TVShowsInfoService
 {
 
     private const TVMAZE_BASE_URL_KEY = 'TVMAZE_BASE_URL';
-
+    private const TVMAZE_CACHE_TTL_KEY = 'TVMAZE_CACHE_TTL'; 
+    
     private $client;
     private $base_url;
+    private $cache_ttl;
 
     /**
      * Constructs the TV Maze Service.
@@ -22,6 +25,7 @@ class TVMazeService implements TVShowsInfoService
     {
         $this->client = $client;
         $this->base_url = env(self::TVMAZE_BASE_URL_KEY);
+        $this->cache_ttl = (int)env(self::TVMAZE_CACHE_TTL_KEY);
         if (empty($this->base_url)) {
             throw new \Exception('Emtpy TV Maze Url');
         }
@@ -39,7 +43,12 @@ class TVMazeService implements TVShowsInfoService
       // Build TV Maze URL
         $url = sprintf("%s/search/shows?q=%s", $this->base_url, $query);
 
-        // Make the request
+        // If the result is cached, then we don't need to query TV Maze again
+        if (Cache::has($query)) {
+            return Cache::get($query);
+        }
+        
+        // Query TV Maze
         $response = $this->client->request('GET', $url);
 
         // Parse JSON Response
@@ -66,6 +75,10 @@ class TVMazeService implements TVShowsInfoService
                 ];
             }
         }
+        
+        // Store results in cache
+        Cache::put($query, $result, $this->cache_ttl);
+        
         return $result;
     }
 }
