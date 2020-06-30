@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\TVShowInfoService;
+use App\Services\TVShowsInfoService;
 use Illuminate\Http\Request;
 
 class TVShowTitlesController extends Controller
@@ -16,7 +16,7 @@ class TVShowTitlesController extends Controller
      * @param TVShowInfoService $tvshowsService Instance of the service that 
      * provides TVShows information.
      */
-    public function __construct(TVShowInfoService $tvshowsService)
+    public function __construct(TVShowsInfoService $tvshowsService)
     {
         $this->tvshowsService = $tvshowsService;
     }
@@ -35,7 +35,6 @@ class TVShowTitlesController extends Controller
         $query = $request->input('q');
         
         // Call the service
-        $this->tvshowsService->getTVShows($query);
         $result = $this->tvshowsService->getTVShows($query);
 
         // Return response

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\InvalidResponseException;
 use GuzzleHttp\Client;
 
 class TVMazeService implements TVShowsInfoService
@@ -43,15 +44,18 @@ class TVMazeService implements TVShowsInfoService
 
         // Parse JSON Response
         $body = json_decode($response->getBody(), true);
-
+        if (empty($body)) {
+            throw new InvalidResponseException('Invalid response from TV Maze Service');
+        }
+        
         // Filter results that matched the query
         $result = [];
         foreach($body as $element) {
-            $title = $element['show']['name'];
-            $language = $element['show']['language'];
-            $summary = $element['show']['summary'];
-            $network = $element['show']['network']['name'];
-
+            $title = $element['show']['name'] ?? null;
+            $language = $element['show']['language'] ?? null;
+            $summary = $element['show']['summary'] ?? null;
+            $network = $element['show']['network']['name'] ?? null;
+            
             // If the title is an exact match, then we add it to the result set.
             if ($title === $query) {
                 $result[] = [
