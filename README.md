@@ -9,37 +9,37 @@ JSON API, implemented using:
 
 ###### INSTRUCTIONS
 
-- * **Requirements**:
+- **Requirements**:
 
-- - - Install php 7.2+
-    - Clone the repository
-    - install dependencies:
+  - Install php 7.2+
+  - Clone the repository
+  - install dependencies:
 
-  - - ```
-      php composer.phar install
-      ```
+  ```
+  php composer.phar install
+  ```
 
-  - **Running the project:**
+- **Running the project:**
 
-    ```
-    php -S 127.0.0.1:8000 -t public
-    ```
+  ```
+  php -S 127.0.0.1:8000 -t public
+  ```
 
-  - **Third party service:**
+- **Third party service:**
 
-    To get to the data, we use the third party service TVMaze, which provides a convenient
-    API to search for movie titles. Using a cache for Optimization of the number of HTTP requests.
+  To get to the data, we use the third party service TVMaze, which provides a convenient
+  API to search for movie titles. Using a cache for Optimization of the number of HTTP requests.
 
-    Their API description can be found here:
-    http://www.tvmaze.com/api
+  Their API description can be found here:
+  http://www.tvmaze.com/api
 
-    
+  
 
-  - **Running the unit tests:**
+- **Running the unit tests:**
 
-    ```
-    ./vendor/bin/phpunit
-    ```
+  ```
+  ./vendor/bin/phpunit
+  ```
 
 
 
